@@ -1,22 +1,22 @@
 class Piece
   attr_reader :color, :token
+  attr_accessor :loc
 
-  def initialize(color)
+  def initialize(color, loc)
     @color = color
     @token = "?"
+    @loc = loc
   end
 
-  def move(move_from, move_to, board)
-    #move from and move to
-    #not sure if needed in this parent class
-    if valid_move?(move_from, move_to, board)
-      move_to.piece = self
-      move_from.piece = nil
+  def move(from, to, board)
+    if valid_move?(to, board)
+      self.loc = to
+      board.update(from, self.loc)
     end
   end
 
   def valid_move?
-    false
+    false #raise error (NotImplemented)
   end
 
 

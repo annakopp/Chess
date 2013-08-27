@@ -1,27 +1,22 @@
 class Pawn < Piece
 
   DELTAS = [ [0, 1], [-1, 1], [1, 1] ]
-  attr_reader :token
 
-  def initialize(color)
-    super(color)
+  def initialize(color, loc)
+    super(color, loc)
     @token = "P"
   end
 
-  def valid_move?(move_from, move_to, board) # move_from, _to are Tiles
+  def valid_move?(from, to, board)
     possible_locations = []
     DELTAS.each do |delta|
-      possible_locations << [ (move_from.x + delta[0]),
-                            (move_from.y + delta[1]) ]
+      possible_locations << [(from[0] + delta[0]), (from[1] + delta[1])]
     end
 
-    possible_tiles = possible_locations.map { |location|  board[location[0]][location[1]]}
-
-
-    if (move_to == possible_tiles.first) && move_to.piece.nil?
+    if (to == possible_locations.first) && board[to[0]][to[1]].nil?
       return true
-    elsif possible_tiles.include?(move_to) && !move_to.piece.nil?
-      if move_to.piece.color != self.color
+    elsif possible_locations.include?(to) && !board[to[0]][to[1]].nil?
+      if board[to[0]][to[1]].color != self.color
         return true
       end
     end

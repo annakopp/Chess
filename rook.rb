@@ -1,89 +1,45 @@
 class Rook < Piece
+  DELTAS = [[0, 1], [0, -1], [-1, 0], [1, 0]]
 
-  def initialize(color)
-    super(color)
+  def initialize(color, loc)
+    super(color, loc)
     @token = "R"
   end
 
-  def valid_move?(from, to, board)
-    return false if (from.x != to.x) && (from.y != to.y)
+  def possible_moves(board)
+    possible_moves = []
 
-    if to.x > from.x
-      i = progress("right", from, board)
-      can_reach = (from.x + i >= to.x)
-    elsif to.x < from.x
-      i = progress("left", from, board)
-      can_reach = (from.x - i <= to.x)
-    elsif to.y > from.y
-      i = progress("up", from, board)
-      can_reach = (from.y + i >= to.y)
-    elsif to.y < from.y
-      i = progress("down", from, board)
-      can_reach = (from.y - i <= to.y)
-    end
-
-    if to.piece.nil?
-      can_reach
-    elsif to.piece.color != self.color
-      can_reach
-    else
-      false
-    end
-
-  end
-
-  def progress(dir, from, board)
-    i = 1
-    case dir
-    when "right"
-      while (from.x + i < 8) && board[from.x + i][from.y].piece.nil?
-        i += 1
-      end
-    when "left"
-      while (from.x - i >= 0) && board[from.x - i][from.y].piece.nil?
-        i += 1
-      end
-    when "up"
-      while (from.y + i < 8) && board[from.x][from.y + i].piece.nil?
-        i += 1
-      end
-    when "down"
-      while (from.y - i >= 0) && board[from.x][from.y - i].piece.nil?
-        i += 1
-      end
-    end
-    i
-  end
-
-
-=begin
-  def valid_move?(move_from, move_to, board)
-    possible_locations = []
     DELTAS.each do |delta|
-      dx = move_from.x + delta[0]
-      dy = move_from.y + delta[1]
-      next if ( dx.between?(0, 7) || dy.between?(0, 7) )
+      dx = delta[0]
+      dy = delta[1]
+      temp = loc.dup
 
-      possible_locations << [dx, dy]
-    end
-
-    possible_tiles = possible_locations.map do |location|
-      board[location[0]][location[1]]
-    end
-
-
-
-    if (move_to == possible_tiles.first) && move_to.piece.nil?
-      return true
-    elsif possible_tiles.include?(move_to) && !move_to.piece.nil?
-      if move_to.piece.color != self.color
-        return true
+      until out_of_bounds?(temp) || !board[temp[0]][temp[1]].nil?
+        possible_moves << temp
+        temp = [(temp[0] + dx), (temp[1] + dy)]
       end
+
+      possible_moves << temp if edible?(temp, board)
+
     end
 
-    false
+    possible_moves
   end
-=end
+
+  def edible?(loc, board)
+    !board[loc[0]][loc[1]].nil? && board[loc[0]][loc[1]].color != color
+  end
+
+  def out_of_bounds?(loc)
+    !loc[0].between?(0,7) || !loc[1].between?(0,7)
+  end
+
+  # x+1, x+2, x+3...until x+i >7 or something is in the way
+
+  def valid_move?(to, board)
+    possible_moves(board).include?(to)
+  end
+
 
 
 end

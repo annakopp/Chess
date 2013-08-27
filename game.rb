@@ -1,6 +1,5 @@
 load 'piece.rb'
 load 'pawn.rb'
-load 'tile.rb'
 load 'rook.rb'
 
 class Game
@@ -11,55 +10,43 @@ class Game
   end
 
   def run
-    pawn1 = Pawn.new("w")
-    board[0][1].piece = pawn1
-    rook1 = Rook.new("w")
-    board[0][0].piece = rook1
-
-    pawn2 = Pawn.new("b")
-    board[7][6].piece = pawn2
-    rook2 = Rook.new("b")
-    board[7][7].piece = rook2
 
     loop do
       print_board
 
       puts "from?"
-      from = gets.chomp.split(" ").map { |num| num.to_i}
+      from = gets.chomp.split(" ").map { |num| num.to_i }
       puts "to?"
-      to = gets.chomp.split(" ").map { |num| num.to_i}
-
-      board[from[0]][from[1]].piece.move(board[from[0]][from[1]], board[to[0]][to[1]], board)
+      to = gets.chomp.split(" ").map { |num| num.to_i }
 
     end
 
 
+  end
+
+  def update(old_l, new_l)
+    board[old_l[0]][old_l[1]] = nil
+    board[new_l[0]][new_l[1]] = self
   end
 
   def make_board
     @board = Array.new(8) do |y|
-      Array.new(8) { |x| Tile.new(y, x) }
+      Array.new(8) { |x| nil }
     end
+
+    @board[0][0] = Pawn.new("w", [0, 0])
+
     print_board
   end
 
   def print_board
-    render
-    puts "\n---------------------------------"
+    puts "\n---------------------------"
     @board.each do |row|
       print "|"
       row.each do |col|
-        print col.appearance + "|"
+        print " #{col.is_a?(Pawn) ? col.token : " "} |"
       end
-      puts "\n---------------------------------"
-    end
-  end
-
-  def render
-    board.each do |row|
-      row.each do |tile|
-        tile.refresh
-      end
+      puts "\n---------------------------"
     end
   end
 
