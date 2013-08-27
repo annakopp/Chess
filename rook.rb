@@ -1,32 +1,38 @@
 class Rook < Piece
 
-  #DELTAS = [ [0, 7], [0, -7], [-7, 0], [7, 0] ]
-
-  attr_reader :token
-
   def initialize(color)
     super(color)
     @token = "R"
   end
 
   def valid_move?(from, to, board)
+    return false if (from.x != to.x) && (from.y != to.y)
+
     if to.x > from.x
-      i = progress("right", from, to, board)
-      (from.x + i >= to.x)
+      i = progress("right", from, board)
+      can_reach = (from.x + i >= to.x)
     elsif to.x < from.x
-      i = progress("left", from, to, board)
-      (from.x - i <= to.x)
+      i = progress("left", from, board)
+      can_reach = (from.x - i <= to.x)
     elsif to.y > from.y
-      i = progress("up", from, to, board)
-      (from.y + i >= to.y)
+      i = progress("up", from, board)
+      can_reach = (from.y + i >= to.y)
     elsif to.y < from.y
-      i = progress("down", from, to, board)
-      (from.y - i <= to.y)
+      i = progress("down", from, board)
+      can_reach = (from.y - i <= to.y)
+    end
+
+    if to.piece.nil?
+      can_reach
+    elsif to.piece.color != self.color
+      can_reach
+    else
+      false
     end
 
   end
 
-  def progress(dir, from, to, board)
+  def progress(dir, from, board)
     i = 1
     case dir
     when "right"
