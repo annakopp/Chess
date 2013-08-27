@@ -1,9 +1,11 @@
 class Pawn < Piece
 
   DELTAS = [ [0, 1], [-1, 1], [1, 1] ]
+  attr_reader :token
 
   def initialize(color)
     super(color)
+    @token = "P"
   end
 
   def valid_move?(move_from, move_to, board) # move_from, _to are Tiles
