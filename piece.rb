@@ -1,8 +1,9 @@
 class Piece
-  attr_reader :color
+  attr_reader :color, :token
 
   def initialize(color)
     @color = color
+    @token = "?"
   end
 
   def move(move_from, move_to, board)

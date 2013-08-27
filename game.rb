@@ -1,6 +1,7 @@
 load 'piece.rb'
 load 'pawn.rb'
 load 'tile.rb'
+load 'rook.rb'
 
 class Game
   attr_accessor :board
