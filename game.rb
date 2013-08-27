@@ -4,8 +4,8 @@ class Game
   end
 
   def make_board
-    @board = Array.new(8) do |row|
-      Array.new(8) { |col| Tile.new(row, col) }
+    @board = Array.new(8) do |y|
+      Array.new(8) { |x| Tile.new(x, y) }
     end
   end
 

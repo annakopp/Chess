@@ -1,11 +1,13 @@
 class Tile
   attr_writer :threatened
   attr_reader :loc
+  attr_accessor :piece
 
-  def initialize(row, col)
+  def initialize(x, y)
     @threatened = false
-    @row = row
-    @col = col
+    @x = row
+    @y = col
+    @piece = nil
   end
 
   def threatened?
