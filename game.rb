@@ -24,18 +24,15 @@ class Game
 
   end
 
-  def update(old_l, new_l)
-    board[old_l[0]][old_l[1]] = nil
-    board[new_l[0]][new_l[1]] = self
-  end
+
 
   def make_board
     @board = Array.new(8) do |y|
       Array.new(8) { |x| nil }
     end
 
-    @board[0][0] = Pawn.new("w", [0, 0])
-
+    @board[0][1] = Pawn.new("w", [0, 1])
+    @board[0][0] = Rook.new("w", [0, 0])
     print_board
   end
 
@@ -44,7 +41,7 @@ class Game
     @board.each do |row|
       print "|"
       row.each do |col|
-        print " #{col.is_a?(Pawn) ? col.token : " "} |"
+        print " #{col.is_a?(Piece) ? col.token : " "} |"
       end
       puts "\n---------------------------"
     end

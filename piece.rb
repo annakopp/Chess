@@ -11,7 +11,9 @@ class Piece
   def move(from, to, board)
     if valid_move?(to, board)
       self.loc = to
-      board.update(from, self.loc)
+
+      board[from[0]][from[1]] = nil
+      board[to[0]][to[1]] = self
     end
   end
 
