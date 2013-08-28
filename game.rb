@@ -25,11 +25,9 @@ class Game
 
     turn = true
 
-    loop do
+    until checkmate? do
       update_possible_moves
       print_board
-
-      self.current_player = (turn ? @player1 : @player2)
 
       begin
         from, to = self.current_player.get_user_input
@@ -46,7 +44,29 @@ class Game
       end
 
       turn = !turn
+      self.current_player = (turn ? @player1 : @player2)
     end
+    puts "#{@current_player.color} loses"
+  end
+
+  def checkmate?
+    update_possible_moves
+    @all_pieces.each do |piece|
+      #p piece
+      piece.possible_moves.each do |pos_move|
+        p pos_move
+        begin
+          from = piece.loc.dup
+          temp = @board[pos_move[0]][pos_move[1]]
+          piece.move(piece.loc, pos_move, self)
+          piece.undo(from, temp, self)
+          return false #if exception raised, this would never be read
+        rescue #if error happens
+          next #can we do this. if we can, it would work
+        end
+      end
+    end
+    true
   end
 
   def make_board

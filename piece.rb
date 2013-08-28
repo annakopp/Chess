@@ -29,8 +29,6 @@ class Piece
 
       game.update_possible_moves
 
-      #game.print_board
-
       if game.check?
         undo(from, temp, game)
 
