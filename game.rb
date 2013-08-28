@@ -9,28 +9,38 @@ load 'king.rb'
 class Game
 
   attr_reader :all_pieces
-  attr_accessor :board
+  attr_accessor :board, :current_player
 
   def initialize
     @all_pieces = []
     @board = make_board
+    @player1 = HumanPlayer.new('w')
+    @player2 = HumanPlayer.new('b')
+    @current_player = @player1
   end
 
   def run
 
     place_pieces
 
+    turn = true
+
     loop do
+      update_possible_moves
       print_board
 
-      update_possible_moves
+      self.current_player = (turn ? @player1 : @player2)
 
+      begin
+        from, to = self.current_player.get_user_input
+        @board[from[0]][from[1]].move(from, to, self)
+      rescue
+        puts "You can't do that"
+        retry
+      end
 
-
-      @board[from[0]][from[1]].move(from, to, @board)
+      turn = !turn
     end
-
-
   end
 
   def make_board
@@ -87,13 +97,21 @@ class Game
 
     puts "\n  -------------------------------------------------"
     7.downto(0) do |i|
-      print "#{i} |"
+      print "#{i+1} |"
       8.times do |j|
         print " #{@board[j][i].is_a?(Piece) ? @board[j][i].token : "   " } |"
       end
       puts "\n  -------------------------------------------------"
     end
-    puts "     0     1     2     3     4     5     6     7   "
+    puts "     A     B     C     D     E     F     G     H   "
+  end
+
+
+  def check?
+    king = self.all_pieces.select do |piece|
+      piece.is_a?(King) && (piece.color == self.current_player.color)
+    end[0]
+    king.threatened?(game)
   end
 
 end
@@ -102,19 +120,23 @@ end
 class HumanPlayer
   LETTERS = {a: 0, b: 1, c: 2, d: 3, e: 4, f: 5, g: 6, h: 7}
 
-  def initialize
+  attr_reader :color
 
+  def initialize(color)
+    @color = color
   end
 
   def get_user_input
     puts "from?"
-    from = gets.chomp.split(" ")
+    from = gets.chomp.downcase.split(" ")
     from_x = LETTERS[from[0].to_sym]
     from_y = from[1].to_i - 1
 
     puts "to?"
-    to = gets.chomp.split(" ").map { |num| num.to_i }
+    to = gets.chomp.downcase.split(" ")
     to_x = LETTERS[to[0].to_sym]
     to_y = to[1].to_i - 1
+
+    [[from_x, from_y], [to_x, to_y]]
   end
 end

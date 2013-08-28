@@ -12,17 +12,20 @@ class Piece
   end
 
 
-  def move(from, to, board)
-    if valid_move?(to, board)
+  def move(from, to, game)
+    board = game.board
+
+    if game.current_player.color != board[from[0]][from[1]].color
+      raise
+    elsif valid_move?(to, board)
       self.loc = to
 
       board[from[0]][from[1]] = nil
 
-      if !board[to[0]][to[1]].nil?
-        board[to[0]][to[1]].active = false
-      end
-
+      board[to[0]][to[1]].active = false if !board[to[0]][to[1]].nil?
       board[to[0]][to[1]] = self
+    else
+      raise
     end
   end
 
