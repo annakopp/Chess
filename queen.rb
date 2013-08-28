@@ -7,7 +7,7 @@ class Queen < Piece
     @token = (color =="w" ? " \u2655 " : " \u265B " )
   end
 
-  def find_possible_moves(board)
+  def find_possible_moves(game)
     possible_moves = []
 
     DELTAS.each do |delta|
@@ -16,17 +16,18 @@ class Queen < Piece
 
       temp = [(loc[0] + dx), (loc[1] + dy)]
 
-      until out_of_bounds?(temp) || !board[temp[0]][temp[1]].nil?
+      until out_of_bounds?(temp) || !game.board[temp[0]][temp[1]].nil?
 
         possible_moves << temp
         temp = [(temp[0] + dx), (temp[1] + dy)]
       end
 
-      possible_moves << temp if edible?(temp, board)
+      possible_moves << temp if edible?(temp, game.board)
 
     end
 
     @possible_moves = possible_moves
+    nil
   end
 
 

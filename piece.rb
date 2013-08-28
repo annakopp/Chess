@@ -1,13 +1,7 @@
-load 'bishop.rb'
-load 'pawn.rb'
-load 'rook.rb'
-load 'queen.rb'
-load 'knight.rb'
-load 'king.rb'
-
 class Piece
-  attr_reader :color, :token
-  attr_accessor :loc, :possible_moves, :active
+  attr_reader :color, :token, :possible_moves
+  attr_accessor :loc, :active
+  #attr_writer :possible_moves
 
   def initialize(color, loc)
     @color = color
@@ -16,6 +10,7 @@ class Piece
     @possible_moves = []
     @active = true
   end
+
 
   def move(from, to, board)
     if valid_move?(to, board)

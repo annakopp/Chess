@@ -7,7 +7,7 @@ class Knight < Piece
     @token = (color =="w" ? " \u2658 " : " \u265E " )
   end
 
-  def find_possible_moves(board)
+  def find_possible_moves(game)
     possible_moves = []
 
     DELTAS.each do |delta|
@@ -17,10 +17,11 @@ class Knight < Piece
       move = [(loc[0] + dx), (loc[1] + dy)]
 
       possible_moves << move if !out_of_bounds?(move) &&
-        ((board[move[0]][move[1]]).nil? || edible?(move, board))
+        ((game.board[move[0]][move[1]]).nil? || edible?(move, game.board))
     end
 
     @possible_moves = possible_moves
+    nil
   end
 
 
