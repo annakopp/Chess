@@ -16,16 +16,30 @@ class Piece
     board = game.board
 
     if game.current_player.color != board[from[0]][from[1]].color
-      raise
+      raise NotYourTurnError.new "not your turn"
     elsif valid_move?(to, board)
       self.loc = to
 
       board[from[0]][from[1]] = nil
 
+      temp = board[to[0]][to[1]]
+
       board[to[0]][to[1]].active = false if !board[to[0]][to[1]].nil?
       board[to[0]][to[1]] = self
+
+      game.update_possible_moves
+
+      #game.print_board
+
+      if game.check?
+        undo(from, temp, game)
+
+        #game.print_board
+
+        raise KingInCheckError.new "king's in check"
+      end
     else
-      raise
+      raise InvalidMoveError.new "invalid move"
     end
   end
 
@@ -41,6 +55,26 @@ class Piece
     return false if out_of_bounds?(pos)
     !board[pos[0]][pos[1]].nil? && board[pos[0]][pos[1]].color != color
   end
+
+
+
+  def undo(old_l, temp, game)
+    board = game.board
+
+    new_l = self.loc.dup
+    self.loc = old_l
+
+    board[old_l[0]][old_l[1]] = self
+
+    temp.active = true if !temp.nil?
+    board[new_l[0]][new_l[1]] = temp
+
+    game.update_possible_moves
+  end
+
+
+
+
 
 
 end

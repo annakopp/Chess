@@ -34,8 +34,14 @@ class Game
       begin
         from, to = self.current_player.get_user_input
         @board[from[0]][from[1]].move(from, to, self)
-      rescue
-        puts "You can't do that"
+      rescue NotYourTurnError => e
+        puts "#{e.message}"
+        retry
+      rescue KingInCheckError => e
+        puts "#{e.message}"
+        retry
+      rescue InvalidMoveError => e
+        puts "#{e.message}"
         retry
       end
 
@@ -111,7 +117,8 @@ class Game
     king = self.all_pieces.select do |piece|
       piece.is_a?(King) && (piece.color == self.current_player.color)
     end[0]
-    king.threatened?(game)
+    #p king #king.threatened?(game)
+    king.threatened?(self)
   end
 
 end
@@ -139,4 +146,13 @@ class HumanPlayer
 
     [[from_x, from_y], [to_x, to_y]]
   end
+end
+
+class KingInCheckError < StandardError
+end
+
+class NotYourTurnError < StandardError
+end
+
+class InvalidMoveError < StandardError
 end
