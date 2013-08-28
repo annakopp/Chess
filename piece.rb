@@ -3,6 +3,7 @@ load 'pawn.rb'
 load 'rook.rb'
 load 'queen.rb'
 load 'knight.rb'
+load 'king.rb'
 
 class Piece
   attr_reader :color, :token

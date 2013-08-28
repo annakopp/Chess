@@ -65,6 +65,9 @@ class Game
     @all_pieces << @board[1][7] = Knight.new('b', [1, 7])
     @all_pieces << @board[6][7] = Knight.new('b', [6, 7])
 
+    #kings
+    @all_pieces << @board[4][0] = King.new('w', [4, 0])
+    @all_pieces << @board[4][7] = King.new('b', [4, 7])
   end
 
   def update_possible_moves
