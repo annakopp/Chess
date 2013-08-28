@@ -1,11 +1,13 @@
 class Pawn < Piece
+  attr_reader :birthplace
 
-  WHITE_DELTAS = [[0,  1], [-1,  1], [1,  1]]
-  BLACK_DELTAS = [[0, -1], [-1, -1], [1, -1]]
+  WHITE_DELTAS = [[0,  1], [-1,  1], [1,  1], [0,  2]]
+  BLACK_DELTAS = [[0, -1], [-1, -1], [1, -1], [0, -2]]
 
   def initialize(color, loc)
     super(color, loc)
     @token = (color =="w" ? " \u2659 " : " \u265F " )
+    @birthplace = loc.dup
   end
 
   def find_possible_moves(game)
@@ -24,10 +26,12 @@ class Pawn < Piece
     front_left = possible_locations.shift
     possible_moves << front_left if edible?(front_left, game.board)
 
-
     front_right = possible_locations.shift
     possible_moves << front_right if edible?(front_right, game.board)
 
+    first_move = possible_locations.shift
+    possible_moves << first_move if possible_moves.include?(in_front) &&
+      (game.board[first_move[0]][first_move[1]].nil?) && (@birthplace == @loc)
 
     @possible_moves = possible_moves
     nil
