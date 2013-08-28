@@ -2,6 +2,7 @@ load 'piece.rb'
 load 'pawn.rb'
 load 'rook.rb'
 load 'bishop.rb'
+load 'queen.rb'
 
 class Game
 
@@ -53,6 +54,10 @@ class Game
     @board[5][0] = Bishop.new('w', [5, 0])
     @board[2][7] = Bishop.new('b', [2, 7])
     @board[5][7] = Bishop.new('b', [5, 7])
+
+    #queens
+    @board[3][0] = Queen.new('w', [3, 0])
+    @board[3][7] = Queen.new('b', [3, 7])
 
   end
 
