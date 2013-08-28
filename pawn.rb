@@ -4,13 +4,13 @@ class Pawn < Piece
 
   def initialize(color, loc)
     super(color, loc)
-    @token = "P"
+    @token = (color =="w" ? " \u2659 " : " \u265F " )
   end
 
-  def valid_move?(from, to, board)
+  def valid_move?(to, board)
     possible_locations = []
     DELTAS.each do |delta|
-      possible_locations << [(from[0] + delta[0]), (from[1] + delta[1])]
+      possible_locations << [(loc[0] + delta[0]), (loc[1] + delta[1])]
     end
 
     if (to == possible_locations.first) && board[to[0]][to[1]].nil?

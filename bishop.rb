@@ -1,9 +1,9 @@
-class Rook < Piece
-  DELTAS = [[0, 1], [0, -1], [-1, 0], [1, 0]]
+class Bishop < Piece
+  DELTAS = [[1, 1], [-1, -1], [-1, 1], [1, -1]]
 
   def initialize(color, loc)
     super(color, loc)
-    @token = (color =="w" ? " \u2656 " : " \u265C " )
+    @token = (color =="w" ? " \u2657 " : " \u265D " )
   end
 
   def possible_moves(board)

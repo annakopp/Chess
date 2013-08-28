@@ -4,7 +4,7 @@ class Piece
 
   def initialize(color, loc)
     @color = color
-    @token = "?"
+    @token = " ? "
     @loc = loc
   end
 
