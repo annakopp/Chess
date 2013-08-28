@@ -12,6 +12,7 @@ class Bishop < Piece
     DELTAS.each do |delta|
       dx = delta[0]
       dy = delta[1]
+
       temp = [(loc[0] + dx), (loc[1] + dy)]
 
       until out_of_bounds?(temp) || !board[temp[0]][temp[1]].nil?

@@ -47,13 +47,13 @@ class Game
     @board[7][0] = Rook.new("w", [7, 0])
     @board[0][7] = Rook.new("b", [0, 0])
     @board[7][7] = Rook.new("b", [7, 7])
-    
+
     #bishops
-    @board[2][0] = Bishop.new('w', [1, 0])
-    @board[5][0] = Bishop.new('w', [1, 0])
-    @board[2][7] = Bishop.new('b', [1, 0])
-    @board[5][7] = Bishop.new('b', [1, 0])
-    
+    @board[2][0] = Bishop.new('w', [2, 0])
+    @board[5][0] = Bishop.new('w', [5, 0])
+    @board[2][7] = Bishop.new('b', [2, 7])
+    @board[5][7] = Bishop.new('b', [5, 7])
+
   end
 
 
