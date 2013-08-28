@@ -2,16 +2,18 @@ load 'bishop.rb'
 load 'pawn.rb'
 load 'rook.rb'
 load 'queen.rb'
+load 'knight.rb'
 
 class Piece
   attr_reader :color, :token
-  attr_accessor :loc, :possible_moves
+  attr_accessor :loc, :possible_moves, :active
 
   def initialize(color, loc)
     @color = color
     @token = " ? "
     @loc = loc
     @possible_moves = []
+    @active = true
   end
 
   def move(from, to, board)
@@ -19,6 +21,11 @@ class Piece
       self.loc = to
 
       board[from[0]][from[1]] = nil
+
+      if !board[to[0]][to[1]].nil?
+        board[to[0]][to[1]].active = false
+      end
+
       board[to[0]][to[1]] = self
     end
   end

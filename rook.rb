@@ -19,7 +19,6 @@ class Rook < Piece
         possible_moves << temp
         temp = [(temp[0] + dx), (temp[1] + dy)]
       end
-      p possible_moves
       possible_moves << temp if edible?(temp, board)
 
     end

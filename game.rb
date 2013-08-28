@@ -59,9 +59,17 @@ class Game
     @all_pieces << @board[3][0] = Queen.new('w', [3, 0])
     @all_pieces << @board[3][7] = Queen.new('b', [3, 7])
 
+    #knights
+    @all_pieces << @board[1][0] = Knight.new('w', [1, 0])
+    @all_pieces << @board[6][0] = Knight.new('w', [6, 0])
+    @all_pieces << @board[1][7] = Knight.new('b', [1, 7])
+    @all_pieces << @board[6][7] = Knight.new('b', [6, 7])
+
   end
 
   def update_possible_moves
+    @all_pieces.select! { |piece| piece.active }
+
     @all_pieces.each do |piece|
       piece.find_possible_moves(board)
     end
